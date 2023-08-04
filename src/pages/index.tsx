@@ -91,7 +91,10 @@ export default function Home() {
   const Scene = useRef([
     {
         heightNum : 4,
-        stackSum : 0
+        stackSum : 0,
+        progress: [
+
+        ]
     },
     {
         heightNum : 1.3,
@@ -99,6 +102,10 @@ export default function Home() {
     },
     {
         heightNum : 10,
+        stackSum : 0
+    },
+    {
+        heightNum : 1,
         stackSum : 0
     }
   ])
@@ -153,24 +160,7 @@ export default function Home() {
   },[WindowHeight]);
 
   /*
-  <div>
-  <a target="_blank" href="https://icons8.com/icon/OIc5mOK0CRfO/meat">Meat</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/KSsv4cKgUzqR/leaf">Leaf</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/G1xj4elfgANy/grass">Grass</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/nlIIz9nKHTpf/scallions">green onion</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/kQs5iqwxfvbp/hot-pepper">Hot Pepper</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/2xgfdL6Vbx79/sesame">Sesame</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/xi2mUB7l9vgu/garlic">Garlic</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/K1ZVDwl6zcqM/sesame-oil">Sesame Oil</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/X7YV8FudXgbP/granulated-garlic">Granulated Garlic</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/afMrhPmVhNz9/wine-bottle">Wine Bottle</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/kRQXpvpMOJWe/ginger">Ginger</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/3i5LsTVSkUUa/pepper">Pepper</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/COT3n5g0HNI9/soy-sauce">Soy Sauce</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/1M0WNfyF7SI6/honey-spoon">Honey Spoon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/Y4waUc69MGoY/onion">Onion</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  <a target="_blank" href="https://icons8.com/icon/64480/water-glass">Water Glass</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  </div>
+
   */
  type Ingredient = {
   [key: string]: string;
@@ -281,12 +271,12 @@ export default function Home() {
             <div className={recipeStyle.Text}>
               <p className={recipeStyle.SubTitle}>제육쌈밥정식</p>
               <h2>
-                {Progress > 0    && Progress < 0.16 &&  "Step 1"}
-                {Progress > 0.16 && Progress < 0.32 &&  "Step 2"}
-                {Progress > 0.32 && Progress < 0.48 &&  "Step 3"}
-                {Progress > 0.48 && Progress < 0.66 &&  "Step 4"}
-                {Progress > 0.66 && Progress < 0.82 &&  "Step 5"}
-                {Progress > 0.82 && Progress < 1    &&  "Step 6"}
+                {Progress > 0    && Progress < 0.16 &&   (<p style={{"paddingTop": "5px"}}><b>1</b> - 2 - 3 - 4 - 5 - 6</p>)}
+                {Progress > 0.16 && Progress < 0.32 &&   (<p style={{"paddingTop": "5px"}}>1 - <b>2</b> - 3 - 4 - 5 - 6</p>)}
+                {Progress > 0.32 && Progress < 0.48 &&   (<p style={{"paddingTop": "5px"}}>1 - 2 - <b>3</b> - 4 - 5 - 6</p>)}
+                {Progress > 0.48 && Progress < 0.66 &&   (<p style={{"paddingTop": "5px"}}>1 - 2 - 3 - <b>4</b> - 5 - 6</p>)}
+                {Progress > 0.66 && Progress < 0.82 &&   (<p style={{"paddingTop": "5px"}}>1 - 2 - 3 - 4 - <b>5</b> - 6</p>)}
+                {Progress > 0.82 && Progress < 1    &&   (<p style={{"paddingTop": "5px"}}>1 - 2 - 3 - 4 - 5 - <b>6</b></p>)}
               </h2>
               <p className={recipeStyle.Message2}>
                 {Progress > 0    && Progress < 0.16 && Recipe[0].text}
@@ -297,7 +287,7 @@ export default function Home() {
                 {Progress > 0.82 && Progress < 1    && Recipe[5].text}
               </p>
             </div>
-              <div style={{position:"fixed","bottom":"60px","width":"100%","maxWidth":"375px","paddingBottom":"20px"}}>
+              <div style={{position:"fixed","bottom":"40px","width":"100%","maxWidth":"375px","paddingBottom":"20px"}}>
                 <h2 style={{color:"#000",paddingBottom:"20px"}}>구매하기</h2>
                 {Progress > 0    && Progress < 0.16 && bottomDesign(0) }
                 {Progress > 0.16 && Progress < 0.32 && bottomDesign(1) }
@@ -310,6 +300,28 @@ export default function Home() {
         </div>
       </Section>
 
+      <Section height={WindowHeight}>
+        <div style={{width:"100%",height:`${WindowHeight}px`, fontSize:"5px",display:"flex",background:"white",flexDirection:"column",color:"#000",padding:"0px 20px"}}>
+          <h2>리소스 출처</h2>
+          <p style={{fontSize:"5px"}}><a href="https://www.cjthemarket.com/">CJ더마켓</a> 전체 이미지</p>
+          <p><a target="_blank" href="https://icons8.com/icon/OIc5mOK0CRfO/meat">Meat</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/KSsv4cKgUzqR/leaf">Leaf</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/G1xj4elfgANy/grass">Grass</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/nlIIz9nKHTpf/scallions">green onion</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/kQs5iqwxfvbp/hot-pepper">Hot Pepper</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/2xgfdL6Vbx79/sesame">Sesame</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/xi2mUB7l9vgu/garlic">Garlic</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/K1ZVDwl6zcqM/sesame-oil">Sesame Oil</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/X7YV8FudXgbP/granulated-garlic">Granulated Garlic</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/afMrhPmVhNz9/wine-bottle">Wine Bottle</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/kRQXpvpMOJWe/ginger">Ginger</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/3i5LsTVSkUUa/pepper">Pepper</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/COT3n5g0HNI9/soy-sauce">Soy Sauce</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/1M0WNfyF7SI6/honey-spoon">Honey Spoon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/Y4waUc69MGoY/onion">Onion</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/64480/water-glass">Water Glass</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+        </div>
+      </Section>
       
       {/* <h2>레시피</h2> */}
       {/* <ul>
@@ -319,6 +331,7 @@ export default function Home() {
         </li>)}
       </ul> */}
       <div className='down-arrow'></div>
+
     </div>
   )
 }
