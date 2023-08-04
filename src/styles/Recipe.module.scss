@@ -1,0 +1,46 @@
+.Main{
+    max-width: 375px;
+    position: relative;
+    margin: 0 auto;
+    p:first-child{padding-top:20px;font-size: 14px;}
+    h2{font-size:24px; font-weight: bold; margin:20px 0px; text-align: center;}
+    h2:nth-child(2){margin-top:5px}
+    h4{font-size:18px; font-weight: bold; margin:20px 0px; text-align: center;}
+}
+.Image{
+    display: block;
+    position: fixed;
+    background-image: url('https://www.cj.co.kr/images/theKitchen/PHON/0000002426/0000010521/0000002426.jpg');
+    top:88px;
+    left: calc(50% - 177px);
+    width: 355px;
+    height: 70%;
+    background-position-x: 50%;
+    background-position-y: 50%;
+    background-repeat:  no-repeat;
+}
+.Text{
+    position: fixed;
+    top:0;
+    left:calc(50% - 188px);
+    width: 375px;
+    padding:0 0px;
+    p:nth-child(1){ color:#000; margin-bottom: 10px; }
+    h2:nth-child(2){color:#000; }
+    p.Message{color:#000; line-height: 30px; position:fixed; top:calc(88px + 70%); padding:20px 20px;}
+    p.Message2{color:#000; line-height: 30px; position:fixed; top:calc(40% + 88px); padding:20px 20px;}
+}
+.SubTitle{
+    font-size: 16px; text-align: center; margin-bottom: 0px;
+}
+.Ingredient{
+    display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center;
+    li{display:flex; flex-direction:column; width: 30%; justify-content: center; align-items: center; padding: 5px 0px; font-size: 12px;}
+    li > * {padding:3px};text-align: center;
+}
+.Message{ font-size: 12px; width: 375px; }
+.Message2{ font-size: 12px; width: 375px; }
+.Page2{
+    color:#000;    
+    border-top: 1px solid #000;
+    border-radius: 20px;}

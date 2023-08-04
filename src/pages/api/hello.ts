@@ -1,13 +1,28 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { sql,db,createClient } from '@vercel/postgres';
+
 
 type Data = {
-  name: string
+  result?: object,
+  error?: unknown
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  const client = createClient();
+  await client.connect();
+  try{
+    const result = await sql`UPDATE cjcytest SET CNT=CNT+1 WHERE NAME = 'test';`
+    return res.status(200).json({result});
+  }catch(error){
+    return res.status(500).json({error});
+  }finally{
+    await client.end();
+  }
 }
+
+
+

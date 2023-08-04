@@ -22,14 +22,22 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+html{
+	background-color: #c8c8c8;
+}
 body {
 	line-height: 1;
+}
+body > div > div{
+	background-color: #fff;
+	box-shadow: 3px 3px 3px 3px #555555
 }
 ol, ul {
 	list-style: none;
@@ -45,4 +53,43 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+.down-arrow {
+	position: fixed;
+	top: calc(100vh - 60px);
+	left: calc(50% - 14px);
+	width: 0;
+	height: 30px;
+	border: 2px solid;
+	border-radius: 2px;
+	border-color: rgba(71, 71, 71, 0.2);
+  }
+  
+.down-arrow:after {
+	content: " ";
+	position: absolute;
+	top: 9px;
+	left: -10px;
+	width: 16px;
+	height: 16px;
+	border-bottom: 4px solid;
+	border-right: 4px solid;
+	border-radius: 4px;
+	transform: rotateZ(45deg);
+	border-color: rgba(71, 71, 71, 0.2);
+}
+@keyframes jumpInfinite {
+	0% {
+		margin-top: 0;
+	}
+	50% {
+		margin-top: 20px;
+	}
+	100% {
+		margin-top: 0;
+	}
+}
+.down-arrow {
+animation: jumpInfinite 1.5s infinite;
 }
