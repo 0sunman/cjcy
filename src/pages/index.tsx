@@ -75,8 +75,8 @@ const bottomDesign = (index:number) => {
   if(Recipe[index] === undefined && Recipe[index]?.products === undefined){
     return <></>
   }
-  return ((<ul style={{"display":"flex","flexDirection":"row"}}> {Recipe[index].products?.map(ele=>(
-    <li 
+  return ((<ul style={{"display":"flex","flexDirection":"row"}}> {Recipe[index].products?.map((ele:any,idx:any)=>(
+    <li key={idx}
     style={{display:"flex",flexDirection:"column",justifyItems:"center",alignItems:"center","width":"80px","height":"120px","marginLeft":"20px","cursor":"pointer"}}>
       <img src={ele.imgUrl} style={{width:"auto",height:"70%"}} 
       onClick={()=>{ window.open(ele.url); }}/>
@@ -145,7 +145,7 @@ export default function Home() {
   },[]);
   useEffect(()=>{
     let sum = 0;
-    Scene.current = Scene.current.map((ele)=>{
+    Scene.current = Scene.current.map((ele:any)=>{
         sum += (window.innerHeight * ele.heightNum);
         ele.stackSum = sum;
         return ele;
@@ -242,7 +242,7 @@ export default function Home() {
           <h2>재료</h2>
           <h4>메인</h4>
           <ul className={recipeStyle.Ingredient}>
-            {MainData.MainIngredient.map((ele,idx) => <li key={idx}>
+            {MainData.MainIngredient.map((ele:any,idx:any) => <li key={idx}>
               <Image src={ele.url} alt={ele.text} width={50} height={50}/>
               <span>{ele.text}</span>
               <span>{ele.weight}</span>
@@ -250,7 +250,7 @@ export default function Home() {
           </ul>
           <h4>소스</h4>
           <ul className={recipeStyle.Ingredient}>
-            {MainData.SourceIngredient.map((ele,idx) => <li key={idx}>
+            {MainData.SourceIngredient.map((ele:any,idx:any) => <li key={idx}>
               <Image src={ele.url} alt={ele.text} width={50} height={50}/>
               <span>{ele.text}</span>
               <span>{ele.weight}</span>
@@ -258,7 +258,7 @@ export default function Home() {
           </ul>
           <h4>옵션</h4>
           <ul className={recipeStyle.Ingredient}>
-            {MainData.OptionIngredient.map((ele,idx) => <li key={idx}>
+            {MainData.OptionIngredient.map((ele:any,idx:any) => <li key={idx}>
               <Image src={ele.url} alt={ele.text} width={50} height={50}/>
               <span>{ele.text}</span>
               <span>{ele.weight}</span>
