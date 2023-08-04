@@ -287,8 +287,8 @@ export default function Home() {
                 {Progress > 0.82 && Progress < 1    && Recipe[5].text}
               </p>
             </div>
-              <div style={{position:"fixed","bottom":"40px","width":"100%","maxWidth":"375px","paddingBottom":"20px"}}>
-                <h2 style={{color:"#000",paddingBottom:"20px"}}>구매하기</h2>
+              <div style={{position:"fixed","bottom":"20px","width":"100%","maxWidth":"375px","paddingBottom":"20px"}}>
+                <h2 style={{color:"#000",fontSize:"15px",paddingTop:"10px",border:"1px solid #000",borderLeft:0,borderRight:0,paddingBottom:"10px"}}>구매하기</h2>
                 {Progress > 0    && Progress < 0.16 && bottomDesign(0) }
                 {Progress > 0.16 && Progress < 0.32 && bottomDesign(1) }
                 {Progress > 0.32 && Progress < 0.48 && bottomDesign(2) }
