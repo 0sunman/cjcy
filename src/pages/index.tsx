@@ -201,6 +201,7 @@ export default function Home() {
       setIsHelp(true);
       setWindowHeight(window.innerHeight);
       window.addEventListener("scroll",scrollEvent)
+      axios.get("/api/views")
       return ()=>{
           window.removeEventListener("scroll",scrollEvent)
       }
