@@ -2,7 +2,8 @@
     max-width: 375px;
     position: relative;
     margin: 0 auto;
-    p:first-child{padding-top:20px;font-size: 14px;}
+    padding-top:40px;
+    p:first-child{padding-top:40px;font-size: 14px;}
     h2{font-size:24px; font-weight: bold; margin:20px 0px; text-align: center;}
     h2:nth-child(2){margin-top:5px}
     h4{font-size:18px; font-weight: bold; margin:20px 0px; text-align: center;}
@@ -11,7 +12,7 @@
     display: block;
     position: fixed;
     background-image: url('https://www.cj.co.kr/images/theKitchen/PHON/0000002426/0000010521/0000002426.jpg');
-    top:88px;
+    top:108px;
     left: calc(50% - 177px);
     width: 355px;
     height: 70%;
@@ -27,8 +28,8 @@
     padding:0 0px;
     p:nth-child(1){ color:#000; margin-bottom: 10px; }
     h2:nth-child(2){color:#000; }
-    p.Message{color:#000; line-height: 30px; position:fixed; top:calc(88px + 70%); padding:20px 20px;}
-    p.Message2{color:#000; line-height: 30px; position:fixed; top:calc(40% + 88px); padding:20px 20px;}
+    p.Message{color:#000; line-height: 30px; position:fixed; top:calc(108px + 70%); padding:20px 20px;}
+    p.Message2{color:#000; line-height: 30px; position:fixed; top:calc(40% + 108px); padding:20px 20px;}
 }
 .SubTitle{
     font-size: 16px; text-align: center; margin-bottom: 0px;
@@ -44,3 +45,69 @@
     color:#000;    
     border-top: 1px solid #000;
     border-radius: 20px;}
+
+.Progress{
+    position: fixed;
+    top:0;
+    left: calc(50% - 187px);
+    display: block;
+    width: 375px;
+    > div{display: block;
+        height: 3px;
+        background-color: red;
+    }
+}
+
+.QuickMenu{
+    position: fixed;
+    width: 375px;
+    top:0px;
+    display: flex;
+    flex-direction: row;
+    height: 30px;
+    > a{ display: inline-flex; height:auto; width: 50%; border:1px solid #000; border-bottom: 0px; border-left:0px; justify-content: center; align-items: center; }
+    > a:last-child{ border-right:0px; }
+    > a[class*='disabled']{  border-bottom:1px solid #000; background-color: #c8c8c8;}
+}
+
+.BottomButton{
+    display: flex;
+    position:fixed; 
+    left:calc(50% - 187px);
+    bottom:0px; 
+    width:375px; 
+    color:#000; 
+    font-size:12px;
+    justify-content: center;
+    align-items: center;
+    border-top:1px solid #000;
+    > a{
+        width:85%;
+        margin:0 auto;
+        text-align: center;
+        font-size: 14px;
+        background-color: #000;
+        padding:10px;
+        border-radius: 10px;
+        margin: 10px 0px;
+        color:#fff;
+        text-decoration: none;
+    }
+}
+
+.Help{
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+    z-index: 99999;
+    background-color: rgba(0,0,0,.3);
+    justify-content: center;
+    align-items: center;
+    > div{
+        > p:nth-child(1){ color:#fff; font-size: 24px !important; text-align: center; padding-bottom: 10px; font-weight: bold;}
+        > p:nth-child(2){ color:#fff; font-size: 18px !important; text-align: center;}
+    }
+}

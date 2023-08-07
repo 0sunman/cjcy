@@ -5,6 +5,8 @@ import styles from '@/styles/Home.module.css'
 import recipeStyle from "@/styles/Recipe.module.scss";
 import { useEffect, useRef, useState } from 'react';
 import styled from "@emotion/styled";
+import axios from 'axios';
+
 
 const Section = styled.div<{height:number}>`
     width:100%; height:${props => props.height}px; 
@@ -36,27 +38,28 @@ const IngredientImageURL = {
   "sesameOil":"/ingredient/sesame-oil.png",
   "sesame":"/ingredient/sesame.png",
   "soySauce":"/ingredient/soy-sauce.png",
-  "wineBottle":"/ingredient/wine-bottle.png"
+  "wineBottle":"/ingredient/wine-bottle.png",
+  "ingredients":"/ingredient/ingredients.png"
  }
 const Recipe = [{
   id:1,imgUrl:"/recipe/20230731/1.jpg",text:"각각의 재료를 준비한다.",products:[
     {"name":"밀키트", "url":"https://front.wemakeprice.com/product/325669315?utm_source=naver_ss&utm_medium=cpc&utm_campaign=r_sa&nv_ad=pla&n_media=27758&n_query=%EC%A0%9C%EC%9C%A1%EB%B3%B6%EC%9D%8C%EB%B0%80%ED%82%A4%ED%8A%B8&n_rank=1&n_ad_group=grp-a001-02-000000029808576&n_ad=nad-a001-02-000000255557925&n_campaign_type=2&n_mall_id=wemakeprice&n_mall_pid=325669315_325669315&n_ad_group_type=2&NaPm=ct%3Dlkm3q83c%7Cci%3D0ya0000VgabyeXdmUL0A%7Ctr%3Dpla%7Chk%3D9b449e55de5b77f6803a342ccfcfa8f61a6f0f30",
-    imgUrl:IngredientImageURL["meat"]}
+    imgUrl:IngredientImageURL["ingredients"]}
   ]
 },{
   id:2,imgUrl:"/recipe/20230731/2.jpg",text:"부추는 6cm 길이로 자르고 깻잎은 채 썬다.",products:[
     {"name":"밀키트", "url":"https://front.wemakeprice.com/product/325669315?utm_source=naver_ss&utm_medium=cpc&utm_campaign=r_sa&nv_ad=pla&n_media=27758&n_query=%EC%A0%9C%EC%9C%A1%EB%B3%B6%EC%9D%8C%EB%B0%80%ED%82%A4%ED%8A%B8&n_rank=1&n_ad_group=grp-a001-02-000000029808576&n_ad=nad-a001-02-000000255557925&n_campaign_type=2&n_mall_id=wemakeprice&n_mall_pid=325669315_325669315&n_ad_group_type=2&NaPm=ct%3Dlkm3q83c%7Cci%3D0ya0000VgabyeXdmUL0A%7Ctr%3Dpla%7Chk%3D9b449e55de5b77f6803a342ccfcfa8f61a6f0f30",
-    imgUrl:IngredientImageURL["meat"]}
+    imgUrl:IngredientImageURL["ingredients"]}
   ]
 },{
   id:3,imgUrl:"/recipe/20230731/3.jpg",text:"양파는 채 썰고 청양고추는 어슷썬다.",products:[
     {"name":"밀키트", "url":"https://front.wemakeprice.com/product/325669315?utm_source=naver_ss&utm_medium=cpc&utm_campaign=r_sa&nv_ad=pla&n_media=27758&n_query=%EC%A0%9C%EC%9C%A1%EB%B3%B6%EC%9D%8C%EB%B0%80%ED%82%A4%ED%8A%B8&n_rank=1&n_ad_group=grp-a001-02-000000029808576&n_ad=nad-a001-02-000000255557925&n_campaign_type=2&n_mall_id=wemakeprice&n_mall_pid=325669315_325669315&n_ad_group_type=2&NaPm=ct%3Dlkm3q83c%7Cci%3D0ya0000VgabyeXdmUL0A%7Ctr%3Dpla%7Chk%3D9b449e55de5b77f6803a342ccfcfa8f61a6f0f30",
-    imgUrl:IngredientImageURL["meat"]}
+    imgUrl:IngredientImageURL["ingredients"]}
   ]
 },{
   id:4,imgUrl:"/recipe/20230731/4.jpg",text:"팬에 식용유를 두르고 밑간한 돼지고기 목살을 센 불에서 볶는다.",products:[
     {"name":"목심살(한돈)", 
-    "url":"https://front.wemakeprice.com/product/325669315?utm_source=naver_ss&utm_medium=cpc&utm_campaign=r_sa&nv_ad=pla&n_media=27758&n_query=%EC%A0%9C%EC%9C%A1%EB%B3%B6%EC%9D%8C%EB%B0%80%ED%82%A4%ED%8A%B8&n_rank=1&n_ad_group=grp-a001-02-000000029808576&n_ad=nad-a001-02-000000255557925&n_campaign_type=2&n_mall_id=wemakeprice&n_mall_pid=325669315_325669315&n_ad_group_type=2&NaPm=ct%3Dlkm3q83c%7Cci%3D0ya0000VgabyeXdmUL0A%7Ctr%3Dpla%7Chk%3D9b449e55de5b77f6803a342ccfcfa8f61a6f0f30"
+    "url":"https://www.cjthemarket.com/pc/prod/prodDetail?prdCd=40087591&amp;plnId=300004"
     ,imgUrl:IngredientImageURL["meat"]}
   ]
 },{
@@ -68,36 +71,50 @@ const Recipe = [{
 },{
   id:6,imgUrl:"/recipe/20230731/6.jpg",text:"그릇에 제육볶음을 담고 부추, 실파, 깻잎, 통깨를 올린다.",products:[
     {"name":"밀키트", "url":"https://front.wemakeprice.com/product/325669315?utm_source=naver_ss&utm_medium=cpc&utm_campaign=r_sa&nv_ad=pla&n_media=27758&n_query=%EC%A0%9C%EC%9C%A1%EB%B3%B6%EC%9D%8C%EB%B0%80%ED%82%A4%ED%8A%B8&n_rank=1&n_ad_group=grp-a001-02-000000029808576&n_ad=nad-a001-02-000000255557925&n_campaign_type=2&n_mall_id=wemakeprice&n_mall_pid=325669315_325669315&n_ad_group_type=2&NaPm=ct%3Dlkm3q83c%7Cci%3D0ya0000VgabyeXdmUL0A%7Ctr%3Dpla%7Chk%3D9b449e55de5b77f6803a342ccfcfa8f61a6f0f30",
-    imgUrl:IngredientImageURL["meat"]}
+    imgUrl:IngredientImageURL["ingredients"]}
   ]
 }]
-const bottomDesign = (index:number) => {
-  if(Recipe[index] === undefined && Recipe[index]?.products === undefined){
-    return <></>
-  }
-  return ((<ul style={{"display":"flex","flexDirection":"row"}}> {Recipe[index].products?.map((ele:any,idx:any)=>(
-    <li key={idx}
-    style={{display:"flex",flexDirection:"column",justifyItems:"center",alignItems:"center","width":"80px","height":"120px","marginLeft":"20px","cursor":"pointer"}}>
-      <img src={ele.imgUrl} style={{width:"auto",height:"70%"}} 
-      onClick={()=>{ window.open(ele.url); }}/>
-      <span style={{display:"flex",alignItems:"center",fontSize:"12px",color:"#000",height:"30%"}}>{ele.name}</span>
-    </li>
-  ))}</ul>))
-}
 
 
 export default function Home() {
   
+
+  const goUrl = (url:string, checkUrl:any) => {
+    setIsMoving(true)
+    axios.get(checkUrl).then((Response)=>{
+      console.log(Response)
+      if(Response.status === 200){
+        window.open(url);
+        setIsMoving(false);
+      }else{
+        console.log("네트워크 에러 발생");
+        setIsMoving(false);
+      }
+    })}
+
+  const bottomDesign = (index:number) => {
+    if(Recipe[index] === undefined && Recipe[index]?.products === undefined){
+      return <></>
+    }
+    return ((<ul style={{"display":"flex","flexDirection":"row"}}> {Recipe[index].products?.map((ele:any,idx:any)=>(
+      <li key={idx}
+      style={{display:"flex",flexDirection:"column",justifyItems:"center",alignItems:"center","width":"80px","height":"120px","marginLeft":"20px","cursor":"pointer"}}>
+        <img src={ele.imgUrl} style={{width:"auto",height:"70%"}} 
+        onClick={()=>{ 
+          goUrl(ele.url,"/api/ingredient");
+        }}/>
+        <span style={{display:"flex",alignItems:"center",fontSize:"12px",color:"#000",height:"30%"}}>{ele.name}</span>
+      </li>
+    ))}</ul>))
+  }
+  
   const Scene = useRef([
     {
         heightNum : 4,
-        stackSum : 0,
-        progress: [
-
-        ]
+        stackSum : 0
     },
     {
-        heightNum : 1.3,
+        heightNum : 0.01,
         stackSum : 0
     },
     {
@@ -113,37 +130,75 @@ export default function Home() {
   const CurrentScene = useRef(0);
   const [WindowHeight, setWindowHeight] = useState(0);
   const [Progress, setProgress] = useState(0);
+  const [CurrentY, setCurrentY] = useState(0);
+  const [IsHelp, setIsHelp] = useState(true);
+  const [IsFirstHelp, setIsFirstHelp] = useState(false);
+  const [IsMoving, setIsMoving] = useState(false);
+  const [ScrollPoint, setScrollPoint] = useState([
+    {id:1, name:"1-1", start:0,end:(WindowHeight*4) * 0.33},
+    {id:2, name:"1-2", start:(WindowHeight*4) * 0.33,end:(WindowHeight*4) * 0.66},
+    {id:3, name:"1-3", start:(WindowHeight*4) * 0.66,end:(WindowHeight*4) * 0.99},
+
+    {id:4, name:"2-1", start:(WindowHeight*4),end:(WindowHeight*4)+(WindowHeight*0.01)},
+    
+    {id:5, name:"3-1", start:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0),end:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.16)},
+    {id:6, name:"3-2", start:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.16),end:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.32)},
+    {id:7, name:"3-3", start:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.32),end:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.48)},
+    {id:8, name:"3-4", start:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.48),end:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.66)},
+    {id:9, name:"3-5", start:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.66),end:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.82)},
+    {id:10,name:"3-6", start:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.82),end:(WindowHeight*4)+(WindowHeight*0.01)+((WindowHeight*10) * 0.1)}
+  ])
+
   const scrollEvent = () =>{
-      const currentY = Math.floor(window.pageYOffset);
-      const WindowHeight = window.innerHeight;
-      const Scenes = Scene.current;
-      let allHeight = Scenes[CurrentScene.current].stackSum;
-
-      if( currentY > allHeight){
-          CurrentScene.current++;
-      }
-
-      if(CurrentScene.current > 0 && currentY < Scenes[CurrentScene.current - 1].stackSum){
-        CurrentScene.current--;
-      }
-
-      console.log(CurrentScene.current + " / " + currentY +" / "+ allHeight)
-      
-      if(CurrentScene.current > 0){
-        const newCurrentY = currentY - Scenes[CurrentScene.current - 1].stackSum;
-        const newAllHeight = allHeight - Scenes[CurrentScene.current - 1].stackSum;
-        setProgress( newCurrentY / newAllHeight );
-      }else{
-        setProgress(currentY / allHeight);
-      }
-      setWindowHeight(window.innerHeight);
+      setCurrentY(Math.floor(window.pageYOffset));
   }
+  useEffect(()=>{
+    if(IsHelp === false){
+      document.body.style.overflow = ""
+    }else{
+      document.body.style.overflow = "hidden"
+    }
+  },[IsHelp]);
+  useEffect(()=>{
+    const WindowHeight = window.innerHeight;
+    const Scenes = Scene.current;
+    let allHeight = Scenes[CurrentScene.current]?.stackSum;
+
+    if( CurrentY > allHeight){
+        CurrentScene.current++;
+    }
+
+    if(CurrentScene.current > 0 && CurrentY < Scenes[CurrentScene.current - 1].stackSum){
+      CurrentScene.current--;
+    }
+
+    console.log(CurrentScene.current + " / " + CurrentY +" / "+ allHeight)
+    
+    if(CurrentScene.current > 0){
+      const newCurrentY = CurrentY - Scenes[CurrentScene.current - 1].stackSum;
+      const newAllHeight = allHeight - Scenes[CurrentScene.current - 1].stackSum;
+      setProgress( newCurrentY / newAllHeight );
+    }else{
+      setProgress(CurrentY / allHeight);
+    }
+    setWindowHeight(window.innerHeight);
+
+    if(ScrollPoint[4].start > 0 && IsFirstHelp === false && ScrollPoint[4].start - WindowHeight < CurrentY){
+      setIsHelp(true);
+      setIsFirstHelp(true);
+      scrollTo(0,ScrollPoint[4].start - WindowHeight);
+    }
+
+  },[CurrentY]);
+
   useEffect(()=>{
     console.log(Math.floor(Progress*100)+"%");
   },[Progress])
 
 
   useEffect(()=>{
+      scrollTo(0,0);
+      setIsHelp(true);
       setWindowHeight(window.innerHeight);
       window.addEventListener("scroll",scrollEvent)
       return ()=>{
@@ -157,7 +212,25 @@ export default function Home() {
         ele.stackSum = sum;
         return ele;
     })
+    
+    setScrollPoint([
+      {id:1, name:"1-1", start:0,end:(WindowHeight*4) * 0.33},
+      {id:2, name:"1-2", start:(WindowHeight*4) * 0.33,end:(WindowHeight*4) * 0.66},
+      {id:3, name:"1-3", start:(WindowHeight*4) * 0.66,end:(WindowHeight*4) * 0.99},
+  
+      {id:4, name:"2-1", start:(WindowHeight*4),end:(WindowHeight*4)+(WindowHeight)},
+      
+      {id:5, name:"3-1", start:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0),end:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.16)},
+      {id:6, name:"3-2", start:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.16),end:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.32)},
+      {id:7, name:"3-3", start:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.32),end:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.48)},
+      {id:8, name:"3-4", start:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.48),end:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.66)},
+      {id:9, name:"3-5", start:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.66),end:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.82)},
+      {id:10,name:"3-6", start:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 0.82),end:(WindowHeight*4)+(WindowHeight)+((WindowHeight*10) * 1)}
+    ])
   },[WindowHeight]);
+  useEffect(()=>{
+    console.log(ScrollPoint)
+  },[ScrollPoint])
 
   /*
 
@@ -208,8 +281,41 @@ export default function Home() {
       {url:IngredientImageURL["pepper"], text:"후추 조금",weight:"약간"}],
     Recipe
   }
+
+  /*
+    모든 
+                {Progress > 0    && Progress < 0.16 && Recipe[0].text}
+                {Progress > 0.16 && Progress < 0.32 && Recipe[1].text}
+                {Progress > 0.32 && Progress < 0.48 && Recipe[2].text}
+                {Progress > 0.48 && Progress < 0.66 && Recipe[3].text}
+                {Progress > 0.66 && Progress < 0.82 && Recipe[4].text}
+                {Progress > 0.82 && Progress < 1    && Recipe[5].text}
+  
+  */
   return (
     <div className={recipeStyle.Main}>
+      <div className={recipeStyle.Help} style={{display:IsMoving?"":"none"}}>
+        <div>
+          <p>현재 해당 사이트로<br></br>이동 중 입니다!</p>
+        </div>
+      </div>
+      <div className={recipeStyle.Help} style={{display:IsHelp?"":"none"}} onClick={()=>{
+        setIsHelp(false);
+      }} onTouchStart={()=>{
+        setIsHelp(false);
+      }}>
+        <div>
+          <p>아래로 스크롤을 내려주세요!</p>
+          <p>(클릭시 안내문구는 사라집니다)</p>
+        </div>
+      </div>
+      <div className={recipeStyle.QuickMenu}>
+        <a className={CurrentY > ScrollPoint[4].start - WindowHeight ? ("disabled") : ("")}>설명</a>
+        <a className={CurrentY < ScrollPoint[4].start - WindowHeight ? ("disabled") : ("")}>레시피</a>
+      </div>
+      <div className={recipeStyle.Progress}>
+        <div style={{width:`${(CurrentY / ScrollPoint[9].end)*100}%`}}></div>
+      </div>
       <Section height={WindowHeight * 4}>
         <div style={{visibility:CurrentScene.current === 0 ? "visible" : "hidden"}}>
           <div className={recipeStyle.Image}></div>
@@ -228,7 +334,7 @@ export default function Home() {
         </div>
       </Section>
       <Section height={WindowHeight}>
-        <div className={recipeStyle.Page2} style={{backgroundColor:"white", height:"100%"}}>
+        <div className={recipeStyle.Page2} style={{backgroundColor:"white", height:"100%",visibility:(CurrentScene.current === 0 ||CurrentScene.current === 1)  ? "visible" : "hidden"}}>
           <h2>재료</h2>
           <h4>메인</h4>
           <ul className={recipeStyle.Ingredient}>
@@ -246,19 +352,19 @@ export default function Home() {
               <span>{ele.weight}</span>
             </li>)}
           </ul>
-          <h4>옵션</h4>
+          {/* <h4>옵션</h4>
           <ul className={recipeStyle.Ingredient}>
             {MainData.OptionIngredient.map((ele:any,idx:any) => <li key={idx}>
               <Image src={ele.url} alt={ele.text} width={50} height={50}/>
               <span>{ele.text}</span>
               <span>{ele.weight}</span>
             </li>)}
-          </ul>
+          </ul> */}
         </div>
       </Section>
 
       <Section height={WindowHeight * 10}>
-        <div style={{visibility:CurrentScene.current === 2 ? "visible" : "hidden"}}>
+        <div style={{visibility:(CurrentScene.current === 2 || CurrentScene.current === 3) ? "visible" : "hidden"}}>
           {/*<div className={recipeStyle.Image}></div>*/}
           
           {Progress > 0    && Progress < 0.16 &&<img src={Recipe[0].imgUrl} style={{"width":"375px","position":"fixed", "top":"15%"}}/>}
@@ -287,8 +393,9 @@ export default function Home() {
                 {Progress > 0.82 && Progress < 1    && Recipe[5].text}
               </p>
             </div>
-              <div style={{position:"fixed","bottom":"20px","width":"100%","maxWidth":"375px","paddingBottom":"20px"}}>
-                <h2 style={{color:"#000",fontSize:"15px",paddingTop:"10px",border:"1px solid #000",borderLeft:0,borderRight:0,paddingBottom:"10px"}}>구매하기</h2>
+              <div style={{position:"fixed","bottom":"40px","width":"100%","maxWidth":"375px","paddingBottom":"20px"}}>
+              <h2 style={{color:"#000",fontSize:"15px",paddingTop:"10px",border:"1px solid #000",borderLeft:0,borderRight:0,paddingBottom:"10px"}}>구매하기</h2>
+                
                 {Progress > 0    && Progress < 0.16 && bottomDesign(0) }
                 {Progress > 0.16 && Progress < 0.32 && bottomDesign(1) }
                 {Progress > 0.32 && Progress < 0.48 && bottomDesign(2) }
@@ -296,6 +403,12 @@ export default function Home() {
                 {Progress > 0.66 && Progress < 0.82 && bottomDesign(4) }
                 {Progress > 0.82 && Progress < 1    && bottomDesign(5) }
               </div>
+          </div>
+          <div className={recipeStyle.BottomButton}>
+            <a target="_blank" onClick={()=>{
+              goUrl("https://front.wemakeprice.com/product/325669315?utm_source=naver_ss&utm_medium=cpc&utm_campaign=r_sa&nv_ad=pla&n_media=27758&n_query=%EC%A0%9C%EC%9C%A1%EB%B3%B6%EC%9D%8C%EB%B0%80%ED%82%A4%ED%8A%B8&n_rank=1&n_ad_group=grp-a001-02-000000029808576&n_ad=nad-a001-02-000000255557925&n_campaign_type=2&n_mall_id=wemakeprice&n_mall_pid=325669315_325669315&n_ad_group_type=2&NaPm=ct%3Dlkm3q83c%7Cci%3D0ya0000VgabyeXdmUL0A%7Ctr%3Dpla%7Chk%3D9b449e55de5b77f6803a342ccfcfa8f61a6f0f30","/api/mealkit");
+              return false;
+            }}>레시피에 필요한 재료 한꺼번에 구입하기</a>
           </div>
         </div>
       </Section>
@@ -320,6 +433,8 @@ export default function Home() {
           <p><a target="_blank" href="https://icons8.com/icon/1M0WNfyF7SI6/honey-spoon">Honey Spoon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
           <p><a target="_blank" href="https://icons8.com/icon/Y4waUc69MGoY/onion">Onion</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
           <p><a target="_blank" href="https://icons8.com/icon/64480/water-glass">Water Glass</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          <p><a target="_blank" href="https://icons8.com/icon/enZOTH5kGrxd/ingredients">Ingredients</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+          
         </div>
       </Section>
       
@@ -330,7 +445,7 @@ export default function Home() {
           {ele.text}
         </li>)}
       </ul> */}
-      <div className='down-arrow'></div>
+      <div className='down-arrow' style={{"display":(CurrentY > ScrollPoint[4].start) ? "none":""}}></div>
 
     </div>
   )
